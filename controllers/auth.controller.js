@@ -69,19 +69,19 @@ exports.createUser = (req, res, next) => {
           });
 
           // Generate access token and send response
-          const expiresIn = 24 * 60 * 60;
-          const accessToken = jwt.sign({
-            id: user.id
-          }, SECRET_KEY, {
-            expiresIn: expiresIn
-          });
+          // const expiresIn = 24 * 60 * 60;
+          // const accessToken = jwt.sign({
+          //   email: user.email
+          // }, SECRET_KEY, {
+          //   expiresIn: expiresIn
+          // });
 
           const dataUser = {
             name: user.name,
             email: user.email,
             rol: user.rol,
-            accessToken: accessToken,
-            expiresIn: expiresIn
+            //accessToken: accessToken,
+            //expiresIn: expiresIn
           }
 
           res.send({
@@ -110,14 +110,14 @@ exports.loginUser=(req,res,next) =>{
               if(resultPassword){
                     if(Date.now() > user.baneado || user.baneado==null){
                     
-                    const expiresIn=24*60*60;
-                    const accessToken=jwt.sign({id:user.id},SECRET_KEY,{expiresIn:expiresIn});
+                    //const expiresIn=24*60*60;
+                    //const accessToken=jwt.sign({email:user.email},SECRET_KEY,{expiresIn:expiresIn});
                     const dataUser= {
                         name: user.name,
                         email: user.email,
                         rol: user.rol,
-                        accessToken: accessToken,
-                        expiresIn: expiresIn
+                        //accessToken: accessToken,
+                        //expiresIn: expiresIn
                     }
                     res.send({dataUser});
                 }else{
