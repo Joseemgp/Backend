@@ -164,10 +164,7 @@ exports.cambiarContrasena = async (req, res, next) => {
         // El email no está registrado
         return res.status(404).send({ message: "El email no está registrado" });
       }
-      if (Date.now() < user.baneado || user.baneado != null) {
-        // El usuario está baneado
-        return res.status(410).send({ message: "El usuario está baneado" });
-      }
+      
       
       let correoAplicacion = await Correo_aplicacion.findOne({})
       await user.save();
@@ -193,7 +190,7 @@ exports.cambiarContrasena = async (req, res, next) => {
           rejectUnauthorized: false,
         }
       });
-      const resetUrl = `https://opinaesiiab23-j4dpqecdcq-no.a.run.app/recuperacion_y_cambio/${token}`;
+      const resetUrl = `http://localhost:4000/${token}`;
       const message = `Para cambiar tu contraseña, sigue este enlace: ${resetUrl}`;
       await transporter.sendMail({
         from: "opinaesiiab@outlook.com",
