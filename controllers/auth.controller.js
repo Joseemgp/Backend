@@ -190,7 +190,7 @@ exports.cambiarContrasena = async (req, res, next) => {
           rejectUnauthorized: false,
         }
       });
-      const resetUrl = `http://localhost:4000/${token}`;
+      const resetUrl = `https://opinaesiiab23-j4dpqecdcq-no.a.run.app/${token}`;
       const message = `Para cambiar tu contraseña, sigue este enlace: ${resetUrl}`;
       await transporter.sendMail({
         from: "opinaesiiab@outlook.com",
