@@ -16,4 +16,5 @@ module.exports = (router) => {
     router.put('/cambiarContrasena/:email',Users.cambiarContrasena)
     router.put('/recuperarContrasena/:email',Users.recuperarContrasena)
     router.put('/recuperacion_y_cambio/:token',Users.Recuperacion_y_CambioContrasena)
+    router.delete('/eliminarUsuario/:id', Users.eliminarUsuario);
 }

@@ -23,22 +23,41 @@ exports.obtenerComentarioId = async(req,res) =>{
 }
 
 //crear comentario
-exports.crearComentario = async(req,res) =>{   
-    try{
-        let comentario;
-        comentario = new Comentario(req.body);
+exports.crearComentario = async (req, res) => {
+    try {
+        const comentario = new Comentario(req.body);
 
-    
+        let comentario_duplicado = false;
 
+        if (comentario.intensificacion && comentario.autor && await Comentario.findOne({ intensificacion: comentario.intensificacion, autor: comentario.autor })) {
+            comentario_duplicado = true;
+        }
+        if (comentario.optativa && comentario.autor && await Comentario.findOne({ optativa: comentario.optativa, autor: comentario.autor })) {
+            comentario_duplicado = true;
+        }
+        if (comentario.muii && comentario.autor && await Comentario.findOne({ muii: comentario.muii, autor: comentario.autor })) {
+            comentario_duplicado = true;
+        }
+        if (comentario.director_tfg && comentario.autor && await Comentario.findOne({ director_tfg: comentario.director_tfg, autor: comentario.autor })) {
+            comentario_duplicado = true;
+        }
+        if (comentario.estancia && comentario.autor && await Comentario.findOne({ estancia: comentario.estancia, autor: comentario.autor })) {
+            comentario_duplicado = true;
+        }
 
-        
-        await comentario.save();
-        res.send(comentario);
-    }catch(error){
+        if (comentario_duplicado) {
+            res.status(404).json({msg:'No se pueden escribir 2 comentarios en la misma página.'});
+        } else {
+            await comentario.save();
+            res.send(comentario);
+        }
+    } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
     }
 }
+
+  
 exports.actualizarComentario = async(req,res) =>{
     try{
         const{ intensificacion, optativa, autor, comentario, puntuacion } = req.body;

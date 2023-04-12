@@ -1,10 +1,11 @@
 const User=require('../auth/auth.dao.js');
+const Comentario = require("../models/Comentarios");
 const Correo_aplicacion=require('../models/Correo_aplicacion.js');
 const jwt=require('jsonwebtoken');
 const bcrypt=require('bcryptjs');
 const { response } = require('express');
 const { findById } = require('../auth/auth.dao.js');
-const SECRET_KEY= 'secretkey123456';
+//const SECRET_KEY= 'secretkey123456';
 const generatePassword = () => {
   const length = 10;
   const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -23,15 +24,16 @@ exports.createUser = (req, res, next) => {
       return res.status(410).send({message:'Solo se permiten correos electrónicos con dominio @alu.uclm.es'});
     }
      let password_desencriptada = generatePassword();
+     const emailseparado = req.body.email.split('.');
     const newUser = {
-      name: req.body.name,
+      name: emailseparado[0],
       email: req.body.email,
       password: bcrypt.hashSync(password_desencriptada),
       rol: req.body.rol || 'usuario'
     };
   
    User.create(newUser, async (err, user) => {
-          if (err && err.code == 11000) return res.status(409).send('El correo electrónico ya está registrado');
+          if (err && err.code == 11000) return res.status(409).send({message:'El correo electrónico ya está registrado'});
           if (err) return res.status(500).send('Error del servidor');
           let correoAplicacion = await Correo_aplicacion.findOne({})
       console.log(correoAplicacion.email);
@@ -102,7 +104,7 @@ exports.loginUser=(req,res,next) =>{
             if(err) return res.status(500).send('Server error!');
             if(!user){
                 //email no existe
-                res.status(409).send({message:"email incorrecto"})
+                res.status(409).send({message:"Usuario o contraseña incorrectos"})
 
             }else {
                 
@@ -124,13 +126,13 @@ exports.loginUser=(req,res,next) =>{
                     res.status(410).send({message:"usuario baneado"})
                 }}else{
                     //contraseña incorrecta
-                    res.status(411).send({message:"contraseña incorrecta"})
+                    res.status(411).send({message:"Usuario o contraseña incorrectos"})
                 }
             }
         })
 }
 
-//haz un controlador para cambiar la contraseña de un usuario
+
 exports.cambiarContrasena = async (req, res, next) => {
     try {
       let user = await User.findOne({email:req.params.email});
@@ -190,7 +192,7 @@ exports.cambiarContrasena = async (req, res, next) => {
           rejectUnauthorized: false,
         }
       });
-      const resetUrl = `https://opinaesiiab23-j4dpqecdcq-no.a.run.app/recuperacion_y_cambio/${token}`;
+      const resetUrl = `http://localhost:4200/recuperacion_y_cambio/${token}`;
       const message = `Para cambiar tu contraseña, sigue este enlace: ${resetUrl}`;
       await transporter.sendMail({
         from: "opinaesiiab@outlook.com",
@@ -307,6 +309,26 @@ exports.desbanearUsuario = async (req, res) => {
         res.status(500).send("Hubo un error");
       }
     };
+
+exports.eliminarUsuario = async (req, res) => {
+    try {
+        let user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).send("Usuario no encontrado");
+        }
+        //let comentarios= await Comentario.find({autor:user.email});
+
+        await Comentario.deleteMany({autor:user.email});
+        await User.findOneAndRemove({_id:req.params.id});
+        
+
+        res.json({msg:"Usuario eliminado"});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Hubo un error");
+    }
+}
 
   
 
