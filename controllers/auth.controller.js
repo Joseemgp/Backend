@@ -280,7 +280,7 @@ exports.banearUsuario = async (req, res) => {
             return res.status(404).send("Usuario no encontrado");
         }
 
-        user.baneado = (Date.now()+1210000000); //esos son los milisegundos en 2 semanas
+        user.baneado =Date.now()+1210000000; //esos son los milisegundos en 2 semanas
         user = await User.findOneAndUpdate({_id:req.params.id},user,{new:true});
         res.json(user);
 

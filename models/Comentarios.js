@@ -21,14 +21,17 @@ const ComentarioSchema = mongoose.Schema({
             type:String
         },
         autor:{
-            type:String
+            type:String,
+            required:true
         },
         comentario:{
-            type:String
+            type:String,
+            required:true
         },
 
         puntuacion:{
-            type:Number
+            type:Number,
+            required:true
         }
 });
 

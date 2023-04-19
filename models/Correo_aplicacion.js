@@ -4,10 +4,12 @@ const authModel=require('../controllers/auth.controller.js');
 const Correo_aplicacionSchema = mongoose.Schema({
        
         email:{
-            type:String
+            type:String,
+            required:true
         },
         password:{
-            type:String}
+            type:String,
+        required: true}
         
 });
 
