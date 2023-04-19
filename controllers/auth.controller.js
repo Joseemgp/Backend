@@ -107,7 +107,7 @@ exports.loginUser=(req,res,next) =>{
                 res.status(409).send({message:"Usuario o contraseña incorrectos"})
 
             }else {
-                
+                  
               const resultPassword= bcrypt.compareSync(userData.password,user.password);
               if(resultPassword){
                     if(Date.now() > user.baneado || user.baneado==null){
