@@ -192,7 +192,7 @@ exports.cambiarContrasena = async (req, res, next) => {
           rejectUnauthorized: false,
         }
       });
-      const resetUrl = `http://localhost:4200/recuperacion_y_cambio/${token}`;
+      const resetUrl = `https://opinaesiiab23-j4dpqecdcq-no.a.run.app/recuperacion_y_cambio/${token}`;
       const message = `Para cambiar tu contraseña, sigue este enlace: ${resetUrl}`;
       await transporter.sendMail({
         from: "opinaesiiab@outlook.com",
@@ -202,7 +202,7 @@ exports.cambiarContrasena = async (req, res, next) => {
       });
       
   
-      res.status(200).send({ message: "Se ha enviado la contraseña al email indicado" });
+      res.status(200).send({ message: "¡Se ha enviado la contraseña al email indicado!" });
     } catch (err) {
       console.error(err);
       res.status(500).send("Error del servidor");
