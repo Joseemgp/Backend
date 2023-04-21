@@ -164,7 +164,7 @@ exports.cambiarContrasena = async (req, res, next) => {
       let user = await User.findOne({email:req.body.email});
       if (!user) {
         // El email no está registrado
-        return res.status(404).send({ message: "El email no está registrado" });
+        return res.status(404).send({ message: "¡El email no está registrado!" });
       }
       
       
