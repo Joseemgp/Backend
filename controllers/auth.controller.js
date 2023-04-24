@@ -99,7 +99,7 @@ exports.loginUser=(req,res,next) =>{
             //rol:req.body.rol
         }
         User.findOne({
-            email:userData.email 
+            email:userData.email.toLowerCase()
         },(err,user)=>{
             if(err) return res.status(500).send('Server error!');
             if(!user){
