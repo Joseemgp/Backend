@@ -27,7 +27,7 @@ exports.createUser = (req, res, next) => {
      const emailseparado = req.body.email.split('.');
     const newUser = {
       name: emailseparado[0],
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       password: bcrypt.hashSync(password_desencriptada),
       rol: req.body.rol || 'usuario'
     };
