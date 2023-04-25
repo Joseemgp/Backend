@@ -31,7 +31,7 @@ exports.createUser = (req, res, next) => {
       password: bcrypt.hashSync(password_desencriptada),
       rol: req.body.rol || 'usuario'
     };
-  
+
    User.create(newUser, async (err, user) => {
           if (err && err.code == 11000) return res.status(409).send({message:'El correo electrónico ya está registrado'});
           if (err) return res.status(500).send('Error del servidor');
@@ -164,7 +164,7 @@ exports.cambiarContrasena = async (req, res, next) => {
       let user = await User.findOne({email:req.body.email});
       if (!user) {
         // El email no está registrado
-        return res.status(404).send({ message: "¡El email no está registrado!" });
+        return res.status(404).send({ message: "El email no está registrado" });
       }
       
       
