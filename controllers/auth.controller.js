@@ -192,7 +192,7 @@ exports.cambiarContrasena = async (req, res, next) => {
           rejectUnauthorized: false,
         }
       });
-      const resetUrl = `http://localhost:4000/recuperacion_y_cambio/${token}`;
+      const resetUrl = `https://opinaesiiab-2023-amqududhvq-no.a.run.app/recuperacion_y_cambio/${token}`;
       const message = `Para cambiar tu contraseña, sigue este enlace: ${resetUrl}`;
       await transporter.sendMail({
         from: "opinaesiiab@outlook.com",
