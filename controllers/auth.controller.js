@@ -58,7 +58,7 @@ exports.createUser = (req, res, next) => {
          
 
           const mailOptions = {
-            from: 'opinaesiiab@outlook.com',
+            from: 'opinaesiiab@gmail.com',
             to: user.email,
             subject: 'Bienvenido a nuestro sitio',
             text: `Hola ${user.name}, \n\n Tu cuenta ha sido creada con éxito. Tu contraseña es ${password_desencriptada}. Por favor, accede a tu cuenta en nuestro sitio web y cambia tu contraseña lo antes posible. \n\n Gracias!`
@@ -181,10 +181,11 @@ exports.cambiarContrasena = async (req, res, next) => {
   
       // Enviamos un email al usuario con la nueva contraseña
       const transporter = nodemailer.createTransport({
-        service:"Outlook365",
-        host:"smpt.office365.com",
+        service:"Gmail",
+        host:"smtp.gmail.com",
         secureConnection: false,
-        port:587,
+        port:465,
+        secure:true,
         auth: {
           user:correoAplicacion.email,
           pass:correoAplicacion.password
@@ -197,7 +198,7 @@ exports.cambiarContrasena = async (req, res, next) => {
       const resetUrl = `https://opinaesiiab-2023-amqududhvq-no.a.run.app/recuperacion_y_cambio/${token}`;
       const message = `Para cambiar tu contraseña, sigue este enlace: ${resetUrl}`;
       await transporter.sendMail({
-        from: "opinaesiiab@outlook.com",
+        from: "opinaesiiab@gmail.com",
         to: user.email,
         subject: "Recuperación de contraseña",
         text: message,
@@ -238,10 +239,11 @@ exports.Recuperacion_y_CambioContrasena = async (req, res, next) => {
     // Enviar un correo electrónico de confirmación de cambio de contraseña
     let correoAplicacion = await Correo_aplicacion.findOne({})
     const transporter = nodemailer.createTransport({
-      service: "Outlook365",
-      host: "smpt.office365.com",
+      service:"Gmail",
+      host:"smtp.gmail.com",
       secureConnection: false,
-      port: 587,
+      port:465,
+      secure:true,
       auth: {
         user: correoAplicacion.email,
         pass: correoAplicacion.password
@@ -253,7 +255,7 @@ exports.Recuperacion_y_CambioContrasena = async (req, res, next) => {
     });
     const message = "Tu contraseña ha sido cambiada exitosamente";
     await transporter.sendMail({
-      from: "opinaesiiab@outlook.com",
+      from: "opinaesiiab@gmail.com",
       to: user.email,
       subject: "Cambio de contraseña",
       text: message,
