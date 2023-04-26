@@ -39,10 +39,12 @@ exports.createUser = (req, res, next) => {
       console.log(correoAplicacion.email);
       console.log(correoAplicacion.password);
           const transporter = nodemailer.createTransport({
-            service:"Outlook365",
-            host:"smpt.office365.com",
+            service:"Gmail",
+            host:"smtp.gmail.com",
+           
             secureConnection: false,
-            port:587,
+            port:465,
+            secure:true,
             auth: {
               user:correoAplicacion.email,
               pass:correoAplicacion.password
@@ -161,7 +163,7 @@ exports.cambiarContrasena = async (req, res, next) => {
   exports.recuperarContrasena = async (req, res, next) => {
     try {
       
-      let user = await User.findOne({email:req.body.email});
+      let user = await User.findOne({email:req.body.email.toLowerCase()});
       if (!user) {
         // El email no está registrado
         return res.status(404).send({ message: "El email no está registrado" });
