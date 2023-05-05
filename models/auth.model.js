@@ -20,7 +20,7 @@ const userSchema = new Schema({
     },
     rol:{
         type: String,
-        enum: ['administrador', 'moderador', 'usuario'],
+        enum: ['administrador', 'moderador', 'estudiante'],
         default: 'usuario'
       },
     baneado:{
